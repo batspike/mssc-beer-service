@@ -10,6 +10,10 @@ import com.samcancode.msscbeerservice.repository.BeerRepository;
 
 //@Component //uncomment to enable; has been replaced with data.sql loading for easier testing
 public class BeerLoader implements CommandLineRunner {
+	public static final String BEER_1_UUID = "0a818933-087d-47f2-ad83-2f986ed087eb";
+	public static final String BEER_2_UUID = "a712d914-61ea-4623-8bd0-32c0f6545bfd";
+	public static final String BEER_3_UUID = "026cc3c8-3a0c-4083-a05b-e908048c1b08";
+	
 	public static final String BEER_1_UPC = "0612334200036";
 	public static final String BEER_2_UPC = "0612334300019";
 	public static final String BEER_3_UPC = "0083783375213";

@@ -3,13 +3,19 @@ package com.samcancode.msscbeerservice.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import com.samcancode.msscbeerservice.domain.Beer;
 import com.samcancode.msscbeerservice.repository.BeerRepository;
 import com.samcancode.msscbeerservice.web.mapper.BeerMapper;
 import com.samcancode.msscbeerservice.web.model.BeerDto;
+import com.samcancode.msscbeerservice.web.model.BeerPagedList;
+import com.samcancode.msscbeerservice.web.model.BeerStyleEnum;
 
 import lombok.RequiredArgsConstructor;
 
@@ -52,6 +58,35 @@ public class BeerServiceImpl implements BeerService {
 	@Override
 	public void deleteBeerById(UUID beerId) {
 		beerRepo.deleteById(beerId);
+	}
+
+	@Override
+	public BeerPagedList listBeers(String beerName, BeerStyleEnum beerStyle, PageRequest pageRequest) {
+		BeerPagedList beerPagedList;
+		Page<Beer> beerPage;
+		
+		if(!StringUtils.isEmpty(beerName) && !StringUtils.isEmpty(beerStyle)) {
+			// search both
+			beerPage = beerRepo.findAllByBeerNameAndBeerStyle(beerName, beerStyle, pageRequest);
+		}
+		else if(!StringUtils.isEmpty(beerName) && StringUtils.isEmpty(beerStyle)) {
+			// search beer_service name
+			beerPage = beerRepo.findAllByBeerName(beerName, pageRequest);
+		}
+		else if(StringUtils.isEmpty(beerName) && !StringUtils.isEmpty(beerStyle)) {
+			// search beer_service style
+			beerPage = beerRepo.findAllByBeerStyle(beerStyle, pageRequest);
+		}
+		else {
+			beerPage = beerRepo.findAll(pageRequest);
+		}
+		
+		beerPagedList = new BeerPagedList(
+								beerPage.getContent().stream().map(beerMapper::beerToBeerDto).collect(Collectors.toList()),
+								PageRequest.of(beerPage.getPageable().getPageNumber(), beerPage.getPageable().getPageSize()), beerPage.getTotalElements()
+							);
+		
+		return beerPagedList;
 	}
 	
 	
