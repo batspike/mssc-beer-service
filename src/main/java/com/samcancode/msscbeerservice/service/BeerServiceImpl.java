@@ -45,15 +45,15 @@ public class BeerServiceImpl implements BeerService {
 
 	@Override
 	public BeerDto updateBeerById(UUID beerId, BeerDto beerDto) {
-		Beer beer = beerRepo.findById(beerId).orElse(null);
-		if (beer == null) {
-			return null;
-		}
-		else {
-			beer = beerRepo.save(beerMapper.beerDtoToBeer(beerDto));
-			return beerMapper.beerToBeerDto(beer);
-		}
-	}
+        Beer beer = beerRepo.findById(beerId).orElse(null);
+        if(beer == null) return null;
+
+        beer.setBeerName(beerDto.getBeerName());
+        beer.setBeerStyle(beerDto.getBeerStyle().name());
+        beer.setPrice(beerDto.getPrice());
+        beer.setUpc(beerDto.getUpc());
+
+        return beerMapper.beerToBeerDto(beerRepo.save(beer));	}
 
 	@Override
 	public void deleteBeerById(UUID beerId) {
