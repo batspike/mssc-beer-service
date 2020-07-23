@@ -10,5 +10,6 @@ import com.samcancode.msscbeerservice.web.model.BeerDto;
 @DecoratedWith(BeerMapperDecorator.class) //to get on-hand-quantity from inventory service
 public interface BeerMapper {
 	BeerDto beerToBeerDto(Beer beer);
+	BeerDto beerToBeerDtoWithInventory(Beer beer);
 	Beer    beerDtoToBeer(BeerDto beerDto);
 }

@@ -36,7 +36,7 @@ class BeerControllerTest {
 		MvcResult r = mockMvc.perform(get("/api/v1/beer/first").accept(MediaType.APPLICATION_JSON)).andReturn();
 		BeerDto beerDto = objectMapper.readValue(r.getResponse().getContentAsString(), BeerDto.class);
 		
-		mockMvc.perform(get("/api/v1/beer/"+ beerDto.getId()).accept(MediaType.APPLICATION_JSON))
+		mockMvc.perform(get("/api/v1/beer/"+ beerDto.getId(),false).accept(MediaType.APPLICATION_JSON))
 			   .andExpect(status().isOk());
 	}
 	
@@ -45,7 +45,7 @@ class BeerControllerTest {
 		MvcResult r = mockMvc.perform(get("/api/v1/beer/first").accept(MediaType.APPLICATION_JSON)).andReturn();
 		BeerDto beerDto = objectMapper.readValue(r.getResponse().getContentAsString(), BeerDto.class);
 		
-		mockMvc.perform(get("/api/v1/beer/"+ beerDto.getId()).accept(MediaType.APPLICATION_JSON))
+		mockMvc.perform(get("/api/v1/beer/"+ beerDto.getId(),false).accept(MediaType.APPLICATION_JSON))
 		.andExpect(status().isOk());
 	}
 	

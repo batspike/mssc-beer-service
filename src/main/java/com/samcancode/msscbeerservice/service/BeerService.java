@@ -10,9 +10,9 @@ import com.samcancode.msscbeerservice.web.model.BeerStyleEnum;
 
 public interface BeerService {
 	BeerDto findFirstBeer();
-	BeerDto findBeerById(UUID beerId);
+	BeerDto findBeerById(UUID beerId, Boolean showInventoryOnHand);
 	BeerDto saveBeer(BeerDto beer);
 	BeerDto updateBeerById(UUID beerId, BeerDto beerDto);
 	void deleteBeerById(UUID beerId);
-	BeerPagedList listBeers(String beerName, BeerStyleEnum beerStyle, PageRequest pageRequest);
+	BeerPagedList listBeers(String beerName, BeerStyleEnum beerStyle, PageRequest pageRequest, Boolean showInventoryOnHand);
 }
